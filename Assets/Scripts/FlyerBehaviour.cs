@@ -6,17 +6,21 @@ public class FlyerBehaviour : MonoBehaviour
 {
 
     private Rigidbody2D         rb;
-    private Transform           tr;
+
     private Animator            an;
 
+    private Transform           tr;
     public Transform            limite1;
     public Transform            limite2;
 
     private bool                viradoParaDireita;
-    public bool                 atacando;
+    public bool                 playerInRange;
 
     private float               altura;
     public float                velocidade;
+    public float                playerRange;
+
+    public LayerMask playerLayer;
 
     // Use this for initialization
     void Awake()
@@ -27,7 +31,6 @@ public class FlyerBehaviour : MonoBehaviour
         an = GetComponent<Animator>();
 
         viradoParaDireita = true;
-        atacando = false;
         altura = tr.position.y;
     }
 
@@ -39,25 +42,26 @@ public class FlyerBehaviour : MonoBehaviour
 
     void EnemyMoviment()
     {
-        if (!atacando)
+        playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
+        if (!playerInRange)
         {
             if (limite1.position.x < tr.position.x && viradoParaDireita)
             {
-                transform.position = Vector3.MoveTowards(transform.position, new Vector2(limite2.position.x, altura), velocidade * Time.deltaTime);
+                tr.position = Vector3.MoveTowards(tr.position, new Vector2(limite2.position.x, altura), velocidade * Time.deltaTime);
             }
             if (tr.position.x < limite2.position.x && !viradoParaDireita)
             {
-                transform.position = Vector3.MoveTowards(transform.position, new Vector2(limite1.position.x, altura), velocidade * Time.deltaTime);
+                tr.position = Vector3.MoveTowards(tr.position, new Vector2(limite1.position.x, altura), velocidade * Time.deltaTime);
             }
             if (limite2.position.x <= tr.position.x && viradoParaDireita)
             {
                 Flip();
-                transform.position = Vector3.MoveTowards(transform.position, new Vector2(limite1.position.x, altura), velocidade * Time.deltaTime);
+                tr.position = Vector3.MoveTowards(tr.position, new Vector2(limite1.position.x, altura), velocidade * Time.deltaTime);
             }
             if (tr.position.x <= limite1.position.x && !viradoParaDireita)
             {
                 Flip();
-                transform.position = Vector3.MoveTowards(transform.position, new Vector2(limite2.position.x, altura), velocidade * Time.deltaTime);
+                tr.position = Vector3.MoveTowards(tr.position, new Vector2(limite2.position.x, altura), velocidade * Time.deltaTime);
             }
             if (tr.position.y < altura || tr.position.y > altura)
             {
@@ -75,11 +79,11 @@ public class FlyerBehaviour : MonoBehaviour
         
         if (tr.position.x <= limite1.position.x)
         {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector2(limite1.position.x+0.5f, altura), velocidade * Time.deltaTime);
+            tr.position = Vector3.MoveTowards(tr.position, new Vector2(limite1.position.x + 0.5f, altura), velocidade * Time.deltaTime);
         }
         if (limite2.position.x <= tr.position.x)
         {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector2(limite2.position.x-0.5f, altura), velocidade * Time.deltaTime);
+            tr.position = Vector3.MoveTowards(tr.position, new Vector2(limite2.position.x + 0.5f, altura), velocidade * Time.deltaTime);
         }
     }
 }

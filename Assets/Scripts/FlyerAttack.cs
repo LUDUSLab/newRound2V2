@@ -24,14 +24,8 @@ public class FlyerAttack : MonoBehaviour {
         playerInRange = Physics2D.OverlapCircle(transform.position, playerRange,playerLayer);
         if (playerInRange)
         {
-            theFlyer.atacando = true;
-            theFlyer.transform.position = Vector3.MoveTowards(transform.position, thePlayer.transform.position, moveSpeed * Time.deltaTime);
+            theFlyer.transform.position = Vector3.MoveTowards(theFlyer.transform.position, thePlayer.transform.position, moveSpeed * Time.deltaTime);
         }
-        else
-        {
-            theFlyer.atacando = false;
-        }
-        
     }
     private void OnDrawGizmosSelected()
     {

@@ -22,6 +22,8 @@ public class Tatu_IA : MonoBehaviour
     public float raioValidaChao;
     public float raioValidaParede;
     public float raioValidaPerseguicao;
+    public float stopTemp;
+    private float temp;
 
     public LayerMask solido;
     public LayerMask player;
@@ -33,7 +35,7 @@ public class Tatu_IA : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         tr = GetComponent<Transform>();
         an = GetComponent<Animator>();
-
+        temp = 0;
         viradoParaDireita = true;
     }
 
@@ -41,6 +43,7 @@ public class Tatu_IA : MonoBehaviour
     void FixedUpdate()
     {
         EnemyMoviment();
+        //decidirAnimacao();
     }
 
     void EnemyMoviment()
@@ -57,41 +60,46 @@ public class Tatu_IA : MonoBehaviour
             }
             else
             {
-                an.SetBool("Andar", false);
-                an.SetBool("Parado", true);
-                an.SetBool("Atacar", false);
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
         }
         if (estaNoChao && !atacar)
         {
-            an.SetBool("Andar", true);
-            an.SetBool("Parado", false);
             rb.velocity = new Vector2(velocidade, rb.velocity.y);
         }
         if (atacar)
         {
-            an.SetBool("Andar", false);
-            an.SetBool("Parado", false);
+            temp += Time.deltaTime;
             if (Player.transform.position.x < tr.position.x && viradoParaDireita)
             {
                 Flip();
+                Freeze();
             }
             if (Player.transform.position.x > tr.position.x && !viradoParaDireita)
             {
                 Flip();
+                Freeze();
             }
         }
-        if(!atacar)
+        else
         {
-            an.SetBool("Atacar", false);
+            temp = 0;
         }
         if (estaNoChao && atacar)
         {
-            an.SetBool("Atacar", true);
-            an.SetBool("Andar", false);
-            an.SetBool("Parado", false);
             rb.velocity = new Vector2(velocidade * 1.5f, rb.velocity.y);
+        }
+    }
+    void Freeze()
+    {
+        if (temp < stopTemp)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+        }
+        else
+        {
+            rb.constraints = RigidbodyConstraints2D.None;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
     }
     void Flip()
@@ -118,5 +126,26 @@ public class Tatu_IA : MonoBehaviour
         Gizmos.DrawWireSphere(campoDeVisao.position, raioValidaPerseguicao);
 
     }
-}
 
+    /*void decidirAnimacao()
+    {
+        if(atacar && !estaNaParede || estaNoChao)
+        {
+            an.SetBool("Atacar", true);
+            an.SetBool("Andar", false);
+            an.SetBool("Parado", false);
+        }
+        if (!atacar && !estaNaParede || estaNoChao)
+        {
+            an.SetBool("Atacar", false);
+            an.SetBool("Andar", true);
+            an.SetBool("Parado", false);
+        }
+        if (atacar && estaNaParede || !estaNoChao)
+        {
+            an.SetBool("Atacar", false);
+            an.SetBool("Andar", false);
+            an.SetBool("Parado", true);
+        }
+    }*/
+}
