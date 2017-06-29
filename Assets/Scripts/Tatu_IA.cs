@@ -43,6 +43,7 @@ public class Tatu_IA : MonoBehaviour
     void FixedUpdate()
     {
         EnemyMoviment();
+        Freeze();
         //decidirAnimacao();
     }
 
@@ -73,12 +74,10 @@ public class Tatu_IA : MonoBehaviour
             if (Player.transform.position.x < tr.position.x && viradoParaDireita)
             {
                 Flip();
-                Freeze();
             }
             if (Player.transform.position.x > tr.position.x && !viradoParaDireita)
             {
                 Flip();
-                Freeze();
             }
         }
         else
@@ -92,14 +91,15 @@ public class Tatu_IA : MonoBehaviour
     }
     void Freeze()
     {
-        if (temp < stopTemp)
+        if (temp < stopTemp && atacar)
         {
             rb.constraints = RigidbodyConstraints2D.FreezePositionX;
         }
-        else
+        if(temp >= stopTemp || !atacar)
         {
             rb.constraints = RigidbodyConstraints2D.None;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            rb.constraints = RigidbodyConstraints2D.FreezePositionY;
         }
     }
     void Flip()
