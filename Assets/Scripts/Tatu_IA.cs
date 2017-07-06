@@ -97,9 +97,7 @@ public class Tatu_IA : MonoBehaviour
         }
         if(temp >= stopTemp || !atacar)
         {
-            rb.constraints = RigidbodyConstraints2D.None;
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
         }
     }
     void Flip()
@@ -109,13 +107,13 @@ public class Tatu_IA : MonoBehaviour
         velocidade *= -1;
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    /*void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
         }
-    }
+    }*/
 
     private void OnDrawGizmosSelected()
     {

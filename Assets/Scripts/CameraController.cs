@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour {
         limiteY1 = -1.8f;
         limiteY2 = -3.6f;
         limiteX1 = -11.56298f;
-        limiteX2 = 48.59263f;
+        limiteX2 = 47.20955f;
 	}
 	
 	void LateUpdate () {
