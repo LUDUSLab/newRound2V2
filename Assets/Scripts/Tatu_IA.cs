@@ -93,7 +93,7 @@ public class Tatu_IA : MonoBehaviour
     {
         if (temp < stopTemp && atacar)
         {
-            rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
         if(temp >= stopTemp || !atacar)
         {
