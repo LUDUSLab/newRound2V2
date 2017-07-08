@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlyerAttack : MonoBehaviour {
-    private DinoBehaviour   thePlayer;
-    private FlyerBehaviour  theFlyer;
+public class FlyerAttack : MonoBehaviour
+{
+    private DinoBehaviour thePlayer;
+    private FlyerBehaviour theFlyer;
 
-    public float            moveSpeed;
-    public float            playerRange;
-    
-    public bool             playerInRange;
+    public float moveSpeed;
+    public float playerRange;
+
+    public bool playerInRange;
 
     public LayerMask playerLayer;
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         thePlayer = FindObjectOfType<DinoBehaviour>();
         theFlyer = FindObjectOfType<FlyerBehaviour>();
     }
@@ -21,7 +23,7 @@ public class FlyerAttack : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        playerInRange = Physics2D.OverlapCircle(transform.position, playerRange,playerLayer);
+        playerInRange = Physics2D.OverlapCircle(transform.position, playerRange, playerLayer);
         if (playerInRange)
         {
             theFlyer.transform.position = Vector3.MoveTowards(theFlyer.transform.position, thePlayer.transform.position, moveSpeed * Time.deltaTime);
