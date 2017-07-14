@@ -5,20 +5,20 @@ using UnityEngine;
 public class FlyerBehaviour : MonoBehaviour
 {
 
-    private Rigidbody2D rb;
+    private Rigidbody2D         rb;
 
-    private Animator an;
+    private Animator            an;
 
-    private Transform tr;
-    public Transform limite1;
-    public Transform limite2;
+    private Transform           tr;
+    public Transform            limite1;
+    public Transform            limite2;
 
-    private bool viradoParaDireita;
-    public bool playerInRange;
+    private bool                viradoParaDireita;
+    public bool                 playerInRange;
 
-    private float altura;
-    public float velocidade;
-    public float playerRange;
+    private float               altura;
+    public float                velocidade;
+    public float                playerRange;
 
     public LayerMask playerLayer;
 
@@ -76,7 +76,7 @@ public class FlyerBehaviour : MonoBehaviour
     }
     void returnToCourse()
     {
-
+        
         if (tr.position.x <= limite1.position.x)
         {
             tr.position = Vector3.MoveTowards(tr.position, new Vector2(limite1.position.x + 0.5f, altura), velocidade * Time.deltaTime);
